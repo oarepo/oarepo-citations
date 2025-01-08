@@ -1,0 +1,10 @@
+{#def record #}
+
+{% set record = record | to_dict %}
+
+<div id="record-citations" data-record='{{ record | tojson }}'></div>
+
+{%- block javascript %}
+{{ super() }}
+{{ webpack['copy_to_clipboard.js'] }}
+{%- endblock %}

@@ -8,7 +8,7 @@ const ClipboardCopyButton = ({ copyText }) => {
     <i
       title={`${i18next.t("Click to copy")}: ${copyText}`}
       role="button"
-      className="copy outline link teal icon copy-btn rel-ml-1"
+      className="copy outline link green icon copy-btn rel-ml-1"
       data-clipboard-text={copyText}
     />
   );

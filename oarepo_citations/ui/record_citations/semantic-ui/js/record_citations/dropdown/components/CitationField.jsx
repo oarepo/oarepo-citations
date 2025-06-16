@@ -1,11 +1,3 @@
-// This file is part of InvenioRDM
-// Copyright (C) 2021-2024 CERN.
-// Copyright (C) 2021 Graz University of Technology.
-// Copyright (C) 2021 TU Wien
-//
-// Invenio RDM Records is free software; you can redistribute it and/or modify it
-// under the terms of the MIT License; see LICENSE file for more details.
-
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 
@@ -43,9 +35,18 @@ const CitationField = ({
   const fetchCitation = async (recordLink, style) => {
     const locale = i18next.language === "cs" ? "cs-CZ" : i18next.language === "en" ? "en-US" : i18next.language;
     const url = `${recordLink}?locale=${locale}&style=${style}`;
+    let acceptHeader = "text/x-bibliography";
+    switch (style) {
+      case "iso690-author-date-cs":
+        acceptHeader = "text/x-iso-690+plain";
+        break;
+      case "bibtex":
+        acceptHeader = "text/x-bibtex+plain";
+        break;
+    }
     return await axios(url, {
       headers: {
-        Accept: "text/x-bibliography",
+        Accept: acceptHeader,
       },
     });
   };

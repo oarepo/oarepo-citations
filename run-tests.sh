@@ -26,5 +26,4 @@ pip install uritemplate
 
 invenio index destroy --force --yes-i-know || true
 
-# NOTE: Uncomment when tests are to be run.
-# pytest tests
+pytest tests

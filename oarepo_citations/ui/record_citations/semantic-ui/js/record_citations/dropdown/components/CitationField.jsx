@@ -35,13 +35,16 @@ const CitationField = ({
   const fetchCitation = async (recordLink, style) => {
     const locale = i18next.language === "cs" ? "cs-CZ" : i18next.language === "en" ? "en-US" : i18next.language;
     const url = `${recordLink}?locale=${locale}&style=${style}`;
-    let acceptHeader = "text/x-bibliography";
+    let acceptHeader;
     switch (style) {
       case "iso690-author-date-cs":
         acceptHeader = "text/x-iso-690+plain";
         break;
       case "bibtex":
         acceptHeader = "text/x-bibtex+plain";
+        break;
+      default:
+        acceptHeader = "text/x-bibliography";
         break;
     }
     return await axios(url, {
@@ -121,7 +124,7 @@ const CitationField = ({
   return (
     <div>
       {!error ?
-        <div id="citation-text" className="wrap-overflowing-text rel-mb-2">
+        <div id="citation-text" className="wrap-overflowing-text rel-mb-1">
           {loading ? (
             <PlaceholderLoader />
           ) : (

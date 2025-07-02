@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { i18next } from "@translations/i18next";
+import { i18next } from "@translations/oarepo_citations";
 import { Button } from "semantic-ui-react";
 
 const ClipboardCopyButton = ({ copyText }) => {

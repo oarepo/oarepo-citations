@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { Button } from "semantic-ui-react";
 
-import { i18next } from "@translations/i18next";
+import { i18next } from "@translations/oarepo_citations";
 
 const TriggerButton = ({ onClick }) => {
   return (

@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 
-import { i18next } from "@translations/i18next";
+import { i18next } from "@translations/oarepo_citations";
 import { Loader, Segment } from "semantic-ui-react";
 
 const CitationField = lazy(() => import("./CitationField"));

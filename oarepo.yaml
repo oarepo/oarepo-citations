@@ -2,9 +2,9 @@ i18n:
   babel_output_translations: oarepo_citations/i18n/translations
   babel_source_paths:
     - oarepo_citations/ui
-  i18next_output_translations: oarepo_citations/i18n/semantic-ui/translations/oarepo_citations
+  i18next_output_translations: oarepo_citations/ui/record_citations/semantic-ui/translations/oarepo_citations
   i18next_source_paths:
-    - oarepo_citations/ui
+    - oarepo_citations/ui/record_citations/semantic-ui/js
   languages:
     - cs
     - en

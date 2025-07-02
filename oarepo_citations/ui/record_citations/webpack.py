@@ -13,7 +13,10 @@ theme = WebpackThemeBundle(
             },
             "dependencies": {},
             "devDependencies": {},
-            "aliases": {"@js/record_citations": "./js/record_citations"},
+            "aliases": {
+                "@js/record_citations": "./js/record_citations",
+                "@translations/oarepo_citations": "./translations/oarepo_citations",
+            },
         }
     },
 )

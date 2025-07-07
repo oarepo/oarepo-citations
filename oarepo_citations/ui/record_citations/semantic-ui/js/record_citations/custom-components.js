@@ -1,1 +1,1 @@
-import "../../less/custom-components.less";
+import "../../less/oarepo_citations/custom-components.less";

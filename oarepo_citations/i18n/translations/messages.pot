@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-07-02 11:58+0200\n"
+"POT-Creation-Date: 2025-07-07 13:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,19 +22,13 @@ msgstr ""
 msgid "Citations"
 msgstr ""
 
-msgid "An error occurred while generating the citation."
-msgstr ""
-
 msgid "Error generating citation."
 msgstr ""
 
 msgid "Style"
 msgstr ""
 
-msgid "Click to copy"
-msgstr ""
-
-msgid "Loading"
+msgid "An error occurred while generating the citation."
 msgstr ""
 
 msgid "record-citation-modal-description"

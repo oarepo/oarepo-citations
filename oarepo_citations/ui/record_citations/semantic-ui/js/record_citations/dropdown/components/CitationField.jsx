@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Placeholder, Dropdown, Message } from "semantic-ui-react";
+import { Dropdown, Message } from "semantic-ui-react";
 import { i18next } from "@translations/invenio_app_rdm/i18next";
 import _escape from "lodash/escape";
 
-import ClipboardCopyButton from "./ClipboardCopyButton";
+import { ClipboardCopyButton } from "@js/oarepo_ui/components";
 import { useCitation } from "../../hooks";
+import { PlaceholderLoader } from "../../components";
 
 const CitationField = ({
   styles,
@@ -16,18 +17,6 @@ const CitationField = ({
   const recordLink = record.links.self;
 
   const { getCitation, citation, loading, error } = useCitation(recordLink, defaultStyle);
-
-  const PlaceholderLoader = () => {
-    return (
-      <Placeholder fluid role="presentation">
-        <Placeholder.Paragraph>
-          <Placeholder.Line />
-          <Placeholder.Line />
-          <Placeholder.Line />
-        </Placeholder.Paragraph>
-      </Placeholder>
-    );
-  };
 
   const ErrorMessage = ({ message }) => {
     return <Message negative role="status" aria-label={i18next.t("Error generating citation.")}>{message}</Message>;
@@ -74,7 +63,7 @@ const CitationField = ({
             {i18next.t("Style")}
           </label>
           <Dropdown
-            className="citation-dropdown"
+            className="citation-dropdown rel-mr-1"
             aria-labelledby="citation-style-label"
             defaultValue={defaultStyle}
             options={citationOptions}

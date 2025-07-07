@@ -1,8 +1,8 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import { i18next } from "@translations/oarepo_citations";
-import { Dimmer, Loader, Segment, Modal, Button } from "semantic-ui-react";
+import { Segment, Modal, Button } from "semantic-ui-react";
 
 import TriggerButton from "./TriggerButton";
 import CitationList from "./CitationList";

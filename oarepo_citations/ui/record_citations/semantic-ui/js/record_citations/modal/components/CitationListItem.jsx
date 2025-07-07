@@ -3,27 +3,16 @@ import PropTypes from "prop-types";
 
 import { i18next } from "@translations/oarepo_citations";
 
-import { List, Placeholder, Message } from "semantic-ui-react";
+import { List, Message } from "semantic-ui-react";
 
 import { useCitation } from "../../hooks";
-import ClipboardCopyButton from "./ClipboardCopyButton";
+import { PlaceholderLoader } from "../../components";
+import { ClipboardCopyButton } from "@js/oarepo_ui/components";
 
 const CitationListItem = ({ recordLink, style, label }) => {
   const effectiveLabel = label ?? i18next.t(style);
 
   const { citation, loading, error } = useCitation(recordLink, style);
-
-  const PlaceholderLoader = () => {
-    return (
-      <Placeholder role="presentation">
-        <Placeholder.Paragraph>
-          <Placeholder.Line />
-          <Placeholder.Line />
-          <Placeholder.Line />
-        </Placeholder.Paragraph>
-      </Placeholder>
-    );
-  };
 
   const ErrorMessage = ({ message }) => {
     return <Message negative role="status" aria-label={i18next.t(`Error generating ${effectiveLabel} citation`)}>{message}</Message>;
@@ -33,7 +22,7 @@ const CitationListItem = ({ recordLink, style, label }) => {
     <List.Item>
       {!error &&
         <List.Content floated="right">
-          <ClipboardCopyButton copyText={citation} />
+          <ClipboardCopyButton copyText={citation} className="ui button copy outline link icon copy-button" />
         </List.Content>
       }
       <List.Content as="article">

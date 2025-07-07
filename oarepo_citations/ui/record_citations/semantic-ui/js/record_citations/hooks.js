@@ -3,8 +3,6 @@ import { withCancel } from "react-invenio-forms";
 import { i18next } from "@translations/invenio_app_rdm/i18next";
 import axios from "axios";
 
-import _debounce from "lodash/debounce";
-
 const fetchCitation = async (recordLink, style) => {
   const locale = i18next.language === "cs" ? "cs-CZ" : i18next.language === "en" ? "en-US" : i18next.language;
   const url = `${recordLink}?locale=${locale}&style=${style}`;
@@ -21,6 +19,9 @@ const fetchCitation = async (recordLink, style) => {
       break;
   }
   return await axios(url, {
+    withCredentials: true,
+    xsrfCookieName: "csrftoken",
+    xsrfHeaderName: "X-CSRFToken",
     headers: {
       Accept: acceptHeader,
     },

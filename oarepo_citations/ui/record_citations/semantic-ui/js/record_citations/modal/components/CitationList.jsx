@@ -5,23 +5,27 @@ import CitationListItem from "./CitationListItem";
 
 import { List } from "semantic-ui-react";
 
-const CitationList = ({ record }) => {
-  console.log(JSON.stringify(record));
-
+const CitationList = ({ record, citationStyles }) => {
   return (
     <List divided relaxed size="large">
-      <CitationListItem recordLink={record.links.self} style="apa" label="APA" />
-      <CitationListItem recordLink={record.links.self} style="harvard-cite-them-right" label="Harvard" />
-      <CitationListItem recordLink={record.links.self} style="modern-language-association" label="MLA" />
-      <CitationListItem recordLink={record.links.self} style="vancouver" label="Vancouver" />
-      <CitationListItem recordLink={record.links.self} style="chicago-fullnote-bibliography" label="Chicago" />
-      <CitationListItem recordLink={record.links.self} style="ieee" label="IEEE" />
+      {citationStyles.map(({ style, label }) => (
+        <CitationListItem
+          key={style}
+          recordLink={record.links.self}
+          style={style}
+          label={label}
+        />
+      ))}
     </List>
   );
 };
 
 CitationList.propTypes = {
   record: PropTypes.object.isRequired,
+  citationStyles: PropTypes.arrayOf(PropTypes.shape({
+    style: PropTypes.string.isRequired,
+    label: PropTypes.string,
+  })).isRequired,
 };
 
 export default CitationList;

@@ -1,28 +1,17 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-import { i18next } from "@translations/oarepo_citations";
-import { Loader, Segment } from "semantic-ui-react";
-
-const CitationField = lazy(() => import("./CitationField"));
+import CitationField from "./CitationField";
 
 export const RecordCitations = ({ record, citationStyles, defaultStyle }) => {
   return (
-    <Suspense
-      fallback={
-        <Segment basic placeholder className="transparent">
-          <Loader active size="medium">{i18next.t("Loading")}…</Loader>
-        </Segment>
-      }
-    >
-      <CitationField record={record} styles={citationStyles} defaultStyle={defaultStyle} />
-    </Suspense>
+    <CitationField record={record} styles={citationStyles} defaultStyle={defaultStyle} />
   );
 };
 
 RecordCitations.propTypes = {
   record: PropTypes.object.isRequired,
-  citationStyles: PropTypes.array,
+  citationStyles: PropTypes.array.isRequired,
   defaultStyle: PropTypes.string,
 };
 
@@ -37,5 +26,5 @@ RecordCitations.defaultProps = {
     { "style": "ieee", "label": "IEEE" },
     { "style": "bibtex", "label": "BibTeX" },
   ],
-  defaultStyle: "apa",
+  defaultStyle: "iso690-author-date-cs",
 };

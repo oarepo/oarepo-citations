@@ -3,13 +3,15 @@ import ReactDOM from "react-dom";
 
 import { RecordCitationsModal } from "./components";
 
-const recordCitationAppDiv = document.getElementById("record-citations");
+const recordCitationsAppDiv = document.getElementById("record-citations");
+const settings = JSON.parse(recordCitationsAppDiv.dataset.citationSettings);
 
 ReactDOM.render(
   <RecordCitationsModal
-    record={JSON.parse(recordCitationAppDiv.dataset.record)}
+    record={JSON.parse(recordCitationsAppDiv.dataset.record)}
+    citationStyles={settings?.styles}
   />,
-  recordCitationAppDiv
+  recordCitationsAppDiv
 );
 
 export { RecordCitationsModal };

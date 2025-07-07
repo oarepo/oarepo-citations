@@ -1,81 +1,21 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import { Placeholder, Dropdown, Message } from "semantic-ui-react";
-import { withCancel } from "react-invenio-forms";
 import { i18next } from "@translations/invenio_app_rdm/i18next";
-import axios from "axios";
-import _debounce from "lodash/debounce";
 import _escape from "lodash/escape";
 
 import ClipboardCopyButton from "./ClipboardCopyButton";
+import { useCitation } from "../../hooks";
 
 const CitationField = ({
   styles,
   record,
   defaultStyle,
 }) => {
-  const [loading, setLoading] = useState(true);
-  const [citation, setCitation] = useState("");
-  const [error, setError] = useState(null);
-
-  const cancellableFetchCitationRef = useRef(null);
-
   const recordLink = record.links.self;
 
-  useEffect(() => {
-    const cancellableFetchCitation = cancellableFetchCitationRef.current;
-    getCitation(recordLink, defaultStyle);
-
-    return () => {
-      cancellableFetchCitation?.cancel();
-    };
-  }, [getCitation, recordLink, defaultStyle]);
-
-  const fetchCitation = async (recordLink, style) => {
-    const locale = i18next.language === "cs" ? "cs-CZ" : i18next.language === "en" ? "en-US" : i18next.language;
-    const url = `${recordLink}?locale=${locale}&style=${style}`;
-    let acceptHeader;
-    switch (style) {
-      case "iso690-author-date-cs":
-        acceptHeader = "text/x-iso-690+plain";
-        break;
-      case "bibtex":
-        acceptHeader = "text/x-bibtex+plain";
-        break;
-      default:
-        acceptHeader = "text/x-bibliography";
-        break;
-    }
-    return await axios(url, {
-      headers: {
-        Accept: acceptHeader,
-      },
-    });
-  };
-
-  const getCitation = useCallback(async (record, style) => {
-    setError(null);
-    setLoading(true);
-    setCitation("");
-
-    const cancellableFetch = withCancel(
-      fetchCitation(record, style)
-    );
-    cancellableFetchCitationRef.current = cancellableFetch;
-
-    try {
-      const response = await cancellableFetch.promise;
-      setLoading(false);
-      setCitation(response.data);
-    } catch (error) {
-      if (error !== "UNMOUNTED") {
-        setLoading(false);
-        setCitation("");
-        setError(i18next.t("An error occurred while generating the citation."));
-      }
-    }
-  }, []);
+  const { getCitation, citation, loading, error } = useCitation(recordLink, defaultStyle);
 
   const PlaceholderLoader = () => {
     return (
@@ -112,14 +52,9 @@ const CitationField = ({
     };
   });
 
-  const onFieldChange = async (event, data) => {
-    setError(null);
-    setLoading(true);
-    _debounce(
-      () => getCitation(recordLink, data.value),
-      500
-    )();
-  }
+  const onFieldChange = (_, data) => {
+    getCitation(data.value);
+  };
 
   return (
     <div>

@@ -6,7 +6,7 @@ import { i18next } from "@translations/oarepo_citations";
 import { List, Message } from "semantic-ui-react";
 
 import { useCitation } from "../../hooks";
-import { PlaceholderLoader } from "../../components";
+import { PlaceholderLoader, LinkifiedCitation } from "../../components";
 import { ClipboardCopyButton } from "@js/oarepo_ui/components";
 
 const CitationListItem = ({ recordLink, style, label }) => {
@@ -28,7 +28,7 @@ const CitationListItem = ({ recordLink, style, label }) => {
       <List.Content as="article">
         <List.Header as="h3">{effectiveLabel}</List.Header>
         <List.Description>
-          {(loading && <PlaceholderLoader />) || citation}
+          {(loading && <PlaceholderLoader />) || <LinkifiedCitation citation={citation} />}
           {error && <ErrorMessage message={error} />}
         </List.Description>
       </List.Content>

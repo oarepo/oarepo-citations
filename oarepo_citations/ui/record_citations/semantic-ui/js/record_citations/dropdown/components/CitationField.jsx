@@ -3,11 +3,14 @@ import PropTypes from "prop-types";
 
 import { Dropdown, Message } from "semantic-ui-react";
 import { i18next } from "@translations/invenio_app_rdm/i18next";
-import _escape from "lodash/escape";
 
 import { ClipboardCopyButton } from "@js/oarepo_ui/components";
 import { useCitation } from "../../hooks";
-import { PlaceholderLoader } from "../../components";
+import { PlaceholderLoader, LinkifiedCitation } from "../../components";
+
+const ErrorMessage = ({ message }) => {
+  return <Message negative role="status" aria-label={i18next.t("Error generating citation.")}>{message}</Message>;
+};
 
 const CitationField = ({
   styles,
@@ -17,21 +20,6 @@ const CitationField = ({
   const recordLink = record.links.self;
 
   const { getCitation, citation, loading, error } = useCitation(recordLink, defaultStyle);
-
-  const ErrorMessage = ({ message }) => {
-    return <Message negative role="status" aria-label={i18next.t("Error generating citation.")}>{message}</Message>;
-  };
-
-  const escapedCitation = _escape(citation);
-  const urlRegex = /(https?:\/\/[^\s,;]+(?=[^\s,;]*))/g;
-  const urlizedCitation = escapedCitation.replace(urlRegex, (url) => {
-    let trailingDot = "";
-    if (url.endsWith(".")) {
-      trailingDot = ".";
-      url = url.slice(0, -1);
-    }
-    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>${trailingDot}`;
-  });
 
   const citationOptions = styles.map((style) => {
     return {
@@ -46,13 +34,13 @@ const CitationField = ({
   };
 
   return (
-    <div>
+    <div className="citations-dropdown-container">
       {!error ?
-        <div id="citation-text" className="wrap-overflowing-text rel-mb-1">
+        <div className="citations-text rel-mb-1">
           {loading ? (
             <PlaceholderLoader />
           ) : (
-            <div dangerouslySetInnerHTML={{ __html: urlizedCitation }} />
+            <LinkifiedCitation citation={citation} />
           )}
         </div> :
         <ErrorMessage message={error} />
@@ -63,7 +51,7 @@ const CitationField = ({
             {i18next.t("Style")}
           </label>
           <Dropdown
-            className="citation-dropdown rel-mr-1"
+            className="citations-dropdown rel-mr-1"
             aria-labelledby="citation-style-label"
             defaultValue={defaultStyle}
             options={citationOptions}

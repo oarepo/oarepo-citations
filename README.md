@@ -19,13 +19,34 @@ Once installed, the citation functionality is automatically available on record 
 1. **Citation Dropdown Component**: A compact dropdown selector for citation styles
 2. **Citation Modal Component**: An expanded modal view for detailed citation information
 
-### Template Integration
+### Configuration & Integration
 
-Include citations in your record templates:
+To customize the citation styles and default style, update the configuration settings in your `invenio.cfg` or equivalent configuration file:
 
-```jinja
-{% include 'RecordCitations.jinja' %}
+```python
+CITATION_STYLES = [
+    { "style": "iso690-author-date-cs", "label": _("ČSN ISO 690") },
+    { "style": "bibtex", "label": _("BibTeX") }
+]
+CITATION_STYLES_DEFAULT = "iso690-author-date-cs"
 ```
+
+Include citations in your record JinjaX templates:
+
+```jsx
+<RecordCitations record={record} styles={config.get("CITATION_STYLES")} defaultStyle={config.get("CITATION_STYLES_DEFAULT")} />
+```
+
+#### Supported Citation Styles
+The package supports various citation styles, including but not limited to:
+- `{ "style": "iso690-author-date-cs", "label": "ČSN ISO 690" }`
+- `{ "style": "apa", "label": "APA" }`
+- `{ "style": "harvard-cite-them-right", "label": "Harvard" }`
+- `{ "style": "modern-language-association", "label": "MLA" }`
+- `{ "style": "vancouver", "label": "Vancouver" }`
+- `{ "style": "chicago-fullnote-bibliography", "label": "Chicago" }`
+- `{ "style": "ieee", "label": "IEEE" }`
+- `{ "style": "bibtex", "label": "BibTeX" }`
 
 ### JavaScript Components
 

@@ -1,5 +1,7 @@
 import React, { memo } from "react";
-import { Placeholder } from "semantic-ui-react";
+
+import { Placeholder, Message } from "semantic-ui-react";
+import { i18next } from "@translations/oarepo_citations";
 
 import { decode } from "html-entities";
 import sanitizeHtml from "sanitize-html";
@@ -15,6 +17,10 @@ export const PlaceholderLoader = () => {
       </Placeholder.Paragraph>
     </Placeholder>
   );
+};
+
+export const ErrorMessage = ({ message, label }) => {
+  return <Message negative role="status" aria-label={i18next.t(`Error generating ${label} citation`)}>{message}</Message>;
 };
 
 export const LinkifiedCitation = memo(({ citation }) => {

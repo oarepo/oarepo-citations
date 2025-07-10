@@ -1,14 +1,13 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
-import { i18next } from "@translations/i18next";
-import { Dimmer, Loader, Segment, Modal, Button } from "semantic-ui-react";
+import { i18next } from "@translations/oarepo_citations";
+import { Segment, Modal, Button } from "semantic-ui-react";
 
 import TriggerButton from "./TriggerButton";
+import CitationList from "./CitationList";
 
-const CitationList = lazy(() => import("./CitationList"));
-
-export const RecordCitationsModal = ({ record }) => {
+export const RecordCitationsModal = ({ record, citationStyles }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
@@ -25,19 +24,9 @@ export const RecordCitationsModal = ({ record }) => {
         <Modal.Header as="h1" id="citation-modal-header">{i18next.t("Citations")}</Modal.Header>
         <Modal.Content>
           <p id="citation-modal-desc">{i18next.t("record-citation-modal-description")}</p>
-          <Suspense
-            fallback={
-              <Dimmer.Dimmable as={Segment} placeholder dimmed role="presentation">
-                <Dimmer simple inverted>
-                  <Loader size="huge">{i18next.t("Loading")}…</Loader>
-                </Dimmer>
-              </Dimmer.Dimmable>
-            }
-          >
-            <Segment>
-              <CitationList record={record} />
-            </Segment>
-          </Suspense>
+          <Segment>
+            <CitationList record={record} citationStyles={citationStyles} />
+          </Segment>
         </Modal.Content>
         <Modal.Actions>
           <Button title={i18next.t("Close citations modal window")} onClick={() => setModalOpen(false)}>
@@ -51,4 +40,21 @@ export const RecordCitationsModal = ({ record }) => {
 
 RecordCitationsModal.propTypes = {
   record: PropTypes.object.isRequired,
+  citationStyles: PropTypes.arrayOf(PropTypes.shape({
+    style: PropTypes.string.isRequired,
+    label: PropTypes.string,
+  })).isRequired,
+};
+
+RecordCitationsModal.defaultProps = {
+  citationStyles: [
+    { "style": "iso690-author-date-cs", "label": "ČSN ISO 690" },
+    { "style": "apa", "label": "APA" },
+    { "style": "harvard-cite-them-right", "label": "Harvard" },
+    { "style": "modern-language-association", "label": "MLA" },
+    { "style": "vancouver", "label": "Vancouver" },
+    { "style": "chicago-fullnote-bibliography", "label": "Chicago" },
+    { "style": "ieee", "label": "IEEE" },
+    { "style": "bibtex", "label": "BibTeX" },
+  ],
 };

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-06-16 15:40+0200\n"
+"POT-Creation-Date: 2025-07-07 13:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-msgid "An error occurred while generating the citation."
+#: /home/martin/Projects/CESNET/OARepo/oarepo-citations/oarepo_citations/ui/record_citations/templates/RecordCitations.jinja:35
+#: /home/martin/Projects/CESNET/OARepo/oarepo-citations/oarepo_citations/ui/record_citations/templates/RecordCitations.jinja:36
+msgid "Citations"
 msgstr ""
 
 msgid "Error generating citation."
@@ -26,13 +28,7 @@ msgstr ""
 msgid "Style"
 msgstr ""
 
-msgid "Click to copy"
-msgstr ""
-
-msgid "Loading"
-msgstr ""
-
-msgid "Citations"
+msgid "An error occurred while generating the citation."
 msgstr ""
 
 msgid "record-citation-modal-description"

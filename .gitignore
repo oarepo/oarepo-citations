@@ -373,6 +373,7 @@ linting.sh
 # Symbolic links
 node_modules 
 
+pnpm-lock.yaml
 
 jsconfig.json
 todo.md

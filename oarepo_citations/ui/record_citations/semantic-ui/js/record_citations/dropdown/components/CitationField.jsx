@@ -9,17 +9,28 @@ import { useCitation } from "../../hooks";
 import { PlaceholderLoader, LinkifiedCitation } from "../../components";
 
 const ErrorMessage = ({ message }) => {
-  return <Message negative role="status" aria-label={i18next.t("Error generating citation.")}>{message}</Message>;
+  return (
+    <Message
+      negative
+      role="status"
+      aria-label={i18next.t("Error generating citation.")}
+    >
+      {message}
+    </Message>
+  );
 };
 
-const CitationField = ({
-  styles,
-  record,
-  defaultStyle,
-}) => {
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};
+
+const CitationField = ({ styles, record, defaultStyle }) => {
   const recordLink = record.links.self;
 
-  const { getCitation, citation, loading, error } = useCitation(recordLink, defaultStyle);
+  const { getCitation, citation, loading, error } = useCitation(
+    recordLink,
+    defaultStyle
+  );
 
   const citationOptions = styles.map((style) => {
     return {
@@ -35,16 +46,17 @@ const CitationField = ({
 
   return (
     <div className="citations-dropdown-container">
-      {!error ?
+      {!error ? (
         <div className="citations-text rel-mb-1">
           {loading ? (
             <PlaceholderLoader />
           ) : (
             <LinkifiedCitation citation={citation} />
           )}
-        </div> :
+        </div>
+      ) : (
         <ErrorMessage message={error} />
-      }
+      )}
       <div className="auto-column-grid no-wrap">
         <div className="flex align-items-center">
           <label id="citation-style-label" className="mr-10">

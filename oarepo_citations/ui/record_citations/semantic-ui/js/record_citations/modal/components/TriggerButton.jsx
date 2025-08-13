@@ -7,14 +7,18 @@ import { i18next } from "@translations/oarepo_citations";
 
 const TriggerButton = ({ onClick }) => {
   return (
-    <Button title={i18next.t('Open citations modal window')} className="citations-trigger-button" onClick={onClick}>
-      {i18next.t('cite this work').toUpperCase()}
+    <Button
+      title={i18next.t("Open citations modal window")}
+      className="citations-trigger-button"
+      onClick={onClick}
+    >
+      {i18next.t("cite this work").toUpperCase()}
     </Button>
   );
 };
 
 TriggerButton.propTypes = {
-  onClick: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default TriggerButton;

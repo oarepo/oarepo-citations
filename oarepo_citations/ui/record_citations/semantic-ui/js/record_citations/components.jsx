@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import PropTypes from "prop-types";
 
 import { Placeholder, Message } from "semantic-ui-react";
 import { i18next } from "@translations/oarepo_citations";
@@ -20,7 +21,20 @@ export const PlaceholderLoader = () => {
 };
 
 export const ErrorMessage = ({ message, label }) => {
-  return <Message negative role="status" aria-label={i18next.t(`Error generating ${label} citation`)}>{message}</Message>;
+  return (
+    <Message
+      negative
+      role="status"
+      aria-label={i18next.t(`Error generating ${label} citation`)}
+    >
+      {message}
+    </Message>
+  );
+};
+
+ErrorMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 export const LinkifiedCitation = memo(({ citation }) => {
@@ -33,11 +47,21 @@ export const LinkifiedCitation = memo(({ citation }) => {
   });
 
   return (
-    <Linkify 
-      as="div" 
-      options={{ target: "_blank", rel: "noopener noreferrer", className: "word-break-all" }}
+    <Linkify
+      as="div"
+      options={{
+        target: "_blank",
+        rel: "noopener noreferrer",
+        className: "word-break-all",
+      }}
     >
       {sanitizedCitation}
     </Linkify>
   );
 });
+
+LinkifiedCitation.displayName = "LinkifiedCitation";
+
+LinkifiedCitation.propTypes = {
+  citation: PropTypes.string.isRequired,
+};

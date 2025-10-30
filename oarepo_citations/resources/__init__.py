@@ -7,12 +7,13 @@ from marshmallow import Schema
 from babel.core import get_global
 
 from .csl import CSLBibTexSerializer, CSLJSONSerializer, StringCitationSerializer
+from .validators import validate_locale, validate_style
 
 
 def csl_url_args_retriever():
     """Returns the style and locale passed as URL args for CSL export."""
-    style = request.args.get("style")
-    locale = request.args.get("locale", None)
+    style = validate_style(request.args.get("style"))
+    locale = validate_locale(request.args.get("locale", None))
     # for consistency, I think it is better to create cs-CZ format, because that one is used in request args
     # as well
     if not locale:
@@ -24,7 +25,7 @@ def csl_url_args_retriever():
             for (terr, langs) in territory_langs.items()
             if langs.get(selected_language, {}).get("official_status")
         ][0]
-        locale = f"{selected_language}-{country}"
+        locale = validate_locale(f"{selected_language}-{country}")
 
     return style, locale
 

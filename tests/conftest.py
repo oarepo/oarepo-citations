@@ -1,0 +1,15 @@
+import pytest
+from invenio_app.factory import create_app as _create_app
+
+@pytest.fixture(scope="module")
+def app_config(app_config):
+    app_config["I18N_LANGUAGES"] = [[("cs", "Czech"), ("en", "English")]]
+    app_config["BABEL_DEFAULT_LOCALE"] = "en"
+
+    return app_config
+
+
+@pytest.fixture(scope="module")
+def create_app(instance_path, entry_points):
+    """Application factory fixture."""
+    return _create_app

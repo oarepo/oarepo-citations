@@ -24,14 +24,13 @@ def create_bibtex_entry(csl_data, id_):
     title = csl_data.get('title')
     year = None
     month = None
-
     if 'issued' in csl_data:
         date_parts = csl_data['issued'].get('date-parts', [])
         if date_parts:
             first_part = date_parts[0]
-            if first_part:
+            if first_part and 1 <= first_part[0] <= 9999: 
                 year = first_part[0]
-                if len(first_part) > 1:
+                if len(first_part) > 1 and 1 <= first_part[1] <= 12:
                     month = first_part[1]
             
     doi = csl_data.get('DOI')

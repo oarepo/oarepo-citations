@@ -17,14 +17,6 @@ def validate_style(style):
     """
     if not style:
         return None
-        
-    # Check for null bytes
-    if '\x00' in style:
-        raise BadRequest("Invalid style parameter: contains null byte")
-    
-    # Check for path traversal attempts
-    if '..' in style or '/' in style or '\\' in style:
-        raise BadRequest("Invalid style parameter: path traversal not allowed")
     
     # Style names should only contain alphanumeric characters, hyphens, and underscores
     if not re.match(r'^[a-zA-Z0-9_-]+$', style):
@@ -49,19 +41,11 @@ def validate_locale(locale):
     if not locale:
         return None
     
-    # Check for null bytes
-    if '\x00' in locale:
-        raise BadRequest("Invalid locale parameter: contains null byte")
-    
-    # Check for path traversal attempts
-    if '..' in locale or '/' in locale or '\\' in locale:
-        raise BadRequest("Invalid locale parameter: path traversal not allowed")
-    
     # Locale format should be: language[-_]territory (e.g., en-US, en_US, cs, cs-CZ)
     # Allow only alphanumeric characters, hyphens, and underscores
     if not re.match(r'^[a-zA-Z]{2,3}([_-][a-zA-Z]{2,4})?$', locale):
         raise BadRequest(
-            "Invalid locale parameter: must be in format 'xx' or 'xx-YY' "
+            "Invalid locale parameter: must be in format 'xx(x)' or 'xx(x)-YY(YY)' "
             "(e.g., 'en', 'en-US', 'cs-CZ')"
         )
     

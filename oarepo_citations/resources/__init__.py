@@ -4,7 +4,7 @@ from invenio_records_resources.resources.records.headers import etag_headers
 from oarepo_runtime.i18n import lazy_gettext as _
 from oarepo_runtime.resources.responses import ExportableResponseHandler
 from marshmallow import Schema
-from babel.core import get_global
+from babel.core import get_global, LOCALE_ALIASES
 
 from .csl import CSLBibTexSerializer, CSLJSONSerializer, StringCitationSerializer
 from .validators import validate_locale, validate_style
@@ -12,22 +12,32 @@ from .validators import validate_locale, validate_style
 
 def csl_url_args_retriever():
     """Returns the style and locale passed as URL args for CSL export."""
-    style = validate_style(request.args.get("style"))
-    locale = validate_locale(request.args.get("locale", None))
-    # for consistency, I think it is better to create cs-CZ format, because that one is used in request args
-    # as well
+    style = request.args.get("style")
+    locale = request.args.get("locale")
+    if not style and not locale:
+        return "iso690-author-date-cs", "cs-CZ"
+    if not style:
+        if current_i18n.locale.language == "cs":
+            style = "iso690-author-date-cs"
+        else:
+            style = "apa"
+    # for consistency, it is better to add territory to locale if missing
     if not locale:
         selected_language = current_i18n.locale.language
-        # https://github.com/python-babel/babel/issues/707
-        territory_langs = get_global("territory_languages")
-        country = [
-            terr
-            for (terr, langs) in territory_langs.items()
-            if langs.get(selected_language, {}).get("official_status")
-        ][0]
-        locale = validate_locale(f"{selected_language}-{country}")
-
-    return style, locale
+        if current_i18n.locale.territory:
+            locale = f"{selected_language}-{current_i18n.locale.territory}"
+        elif selected_language in LOCALE_ALIASES:
+            locale = LOCALE_ALIASES[selected_language]
+        else:
+            # https://github.com/python-babel/babel/issues/707
+            territory_langs = get_global("territory_languages")
+            country = (
+                terr
+                for (terr, langs) in territory_langs.items()
+                if langs.get(selected_language, {}).get("official_status")
+            )[0]
+            locale = f"{selected_language}-{country}"
+    return validate_style(style), validate_locale(locale)
 
 
 #

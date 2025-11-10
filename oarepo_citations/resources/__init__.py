@@ -14,8 +14,6 @@ def csl_url_args_retriever():
     """Returns the style and locale passed as URL args for CSL export."""
     style = request.args.get("style")
     locale = request.args.get("locale")
-    if not style and not locale:
-        return "iso690-author-date-cs", "cs-CZ"
     if not style:
         if current_i18n.locale.language == "cs":
             style = "iso690-author-date-cs"

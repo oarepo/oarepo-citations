@@ -41,6 +41,7 @@ def test_create_bibtex_entry_with_full_metadata():
         "title = {A Sample Article},\n"
         "year = {2023},\n"
         "month = {5},\n"
+        "day = {17},\n"
         "publisher = \"Test Publisher\",\n"
         "doi = {10.1234/example}\n"
         "}\n"

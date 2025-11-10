@@ -21,7 +21,7 @@ def test_csl_url_args_retriever_uses_query_parameters(create_app):
         ("/?style=apa&locale=cs", "apa", "cs"),
         ("/?locale=cs", "apa", "cs"),
         ("/?style=iso690-author-date-cs", "iso690-author-date-cs", "en_US"),
-        ("/", "iso690-author-date-cs", "cs-CZ"),
+        ("/", "apa", "en_US"),
     ],
 )
 def test_csl_url_args_retriever_fixes_style_or_locale(create_app, query, expected_style, expected_locale):

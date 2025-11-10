@@ -18,20 +18,29 @@ def map_resource_type_to_bibtex(resource_type):
     return csl_to_bibtex.get(resource_type, "misc")
 
 
+def valid_int(v, lo, hi):
+    try:
+        v = int(v)
+    except (ValueError, TypeError):
+        return False
+    return lo <= v <= hi
+
+
 def create_bibtex_entry(csl_data, id_):
     entry_type = map_resource_type_to_bibtex(csl_data['type'])
     authors = csl_data.get('author', [])
     title = csl_data.get('title')
-    year = None
-    month = None
+    year, month, day = None, None, None
     if 'issued' in csl_data:
-        date_parts = csl_data['issued'].get('date-parts', [])
+        date_parts = csl_data['issued'].get('date-parts')
         if date_parts:
             first_part = date_parts[0]
-            if first_part and 1 <= first_part[0] <= 9999: 
+            if first_part and valid_int(first_part[0], 1, 9999): 
                 year = first_part[0]
-                if len(first_part) > 1 and 1 <= first_part[1] <= 12:
+                if len(first_part) > 1 and valid_int(first_part[1], 1, 12):
                     month = first_part[1]
+                    if len(first_part) > 2 and valid_int(first_part[2], 1, 31):
+                        day = first_part[2]
             
     doi = csl_data.get('DOI')
     publisher = csl_data.get('publisher','')    
@@ -58,7 +67,9 @@ def create_bibtex_entry(csl_data, id_):
     if year:
         bibtex_fields.append(f'year = {{{year}}}')
     if month:
-        bibtex_fields.append(f'month = {{{month}}}')   
+        bibtex_fields.append(f'month = {{{month}}}')
+    if day:
+        bibtex_fields.append(f'day = {{{day}}}')
     if publisher:
         bibtex_fields.append(f'publisher = "{publisher}"')   
     if doi:

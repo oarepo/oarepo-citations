@@ -25,8 +25,8 @@ def validate_style(style):
     # Verify the style exists
     try:
         get_style_filepath(style.lower())
-    except StyleNotFoundError:
-        raise BadRequest(f"Invalid style parameter: style '{style}' not found")
+    except StyleNotFoundError as e:
+        raise BadRequest(f"Invalid style parameter: style '{style}' not found") from e
     
     return style
 
@@ -41,14 +41,6 @@ def validate_locale(locale):
     if not locale:
         return None
     
-    # Locale format should be: language[-_]territory (e.g., en-US, en_US, cs, cs-CZ)
-    # Allow only alphanumeric characters, hyphens, and underscores
-    if not re.match(r'^[a-zA-Z]{2,3}([_-][a-zA-Z]{2,4})?$', locale):
-        raise BadRequest(
-            "Invalid locale parameter: must be in format 'xx(x)' or 'xx(x)-YY(YY)' "
-            "(e.g., 'en', 'en-US', 'cs-CZ')"
-        )
-    
     # Try to parse with Babel to ensure it's a valid locale
     # Babel accepts both '-' and '_' as separators
     try:
@@ -61,6 +53,6 @@ def validate_locale(locale):
             # Just language code
             Locale.parse(locale)
     except (UnknownLocaleError, ValueError) as e:
-        raise BadRequest(f"Invalid locale parameter: {str(e)}")
+        raise BadRequest("Invalid locale parameter.") from e
     
     return locale

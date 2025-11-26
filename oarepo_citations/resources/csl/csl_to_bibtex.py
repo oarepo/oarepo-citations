@@ -18,12 +18,14 @@ def map_resource_type_to_bibtex(resource_type):
     return csl_to_bibtex.get(resource_type, "misc")
 
 
-def valid_int(v, lo, hi):
+def valid_int_or_none(v, lo, hi):
+    if v is None:
+        return None
     try:
         v = int(v)
     except (ValueError, TypeError):
-        return False
-    return lo <= v <= hi
+        return None
+    return v if lo <= v <= hi else None
 
 
 def create_bibtex_entry(csl_data, id_):
@@ -33,14 +35,11 @@ def create_bibtex_entry(csl_data, id_):
     year, month, day = None, None, None
     if 'issued' in csl_data:
         date_parts = csl_data['issued'].get('date-parts')
-        if date_parts:
-            first_part = date_parts[0]
-            if first_part and valid_int(first_part[0], 1, 9999): 
-                year = first_part[0]
-                if len(first_part) > 1 and valid_int(first_part[1], 1, 12):
-                    month = first_part[1]
-                    if len(first_part) > 2 and valid_int(first_part[2], 1, 31):
-                        day = first_part[2]
+        if date_parts and len(date_parts) > 0:
+            year, month, day = (date_parts[0] + [None, None, None])[:3]
+            year = valid_int_or_none(year, 1, 9999)
+            month = valid_int_or_none(month, 1, 12)
+            day = valid_int_or_none(day, 1, 31)
             
     doi = csl_data.get('DOI')
     publisher = csl_data.get('publisher','')    

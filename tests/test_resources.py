@@ -52,7 +52,7 @@ def test_csl_url_args_retriever_rejects_invalid_style(create_app, query, expecte
 @pytest.mark.parametrize(
     "query,expected",
     [
-        ("/?locale=../cs-CZ", "must be in format"),
+        ("/?locale=../cs-CZ", "Invalid locale parameter"),
         ("/?locale=zz-ZZ", "Invalid locale parameter"),
     ],
 )

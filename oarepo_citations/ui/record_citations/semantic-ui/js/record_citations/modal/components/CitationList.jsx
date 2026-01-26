@@ -22,10 +22,12 @@ const CitationList = ({ record, citationStyles }) => {
 
 CitationList.propTypes = {
   record: PropTypes.object.isRequired,
-  citationStyles: PropTypes.arrayOf(PropTypes.shape({
-    style: PropTypes.string.isRequired,
-    label: PropTypes.string,
-  })).isRequired,
+  citationStyles: PropTypes.arrayOf(
+    PropTypes.shape({
+      style: PropTypes.string.isRequired,
+      label: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default CitationList;

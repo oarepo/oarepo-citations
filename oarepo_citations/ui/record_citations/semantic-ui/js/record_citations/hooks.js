@@ -4,7 +4,12 @@ import { i18next } from "@translations/invenio_app_rdm/i18next";
 import axios from "axios";
 
 const fetchCitation = async (recordLink, style) => {
-  const locale = i18next.language === "cs" ? "cs-CZ" : i18next.language === "en" ? "en-US" : i18next.language;
+  const locale =
+    i18next.language === "cs"
+      ? "cs-CZ"
+      : i18next.language === "en"
+      ? "en-US"
+      : i18next.language;
   const url = `${recordLink}?locale=${locale}&style=${style}`;
   let acceptHeader;
   switch (style) {
@@ -35,28 +40,31 @@ export const useCitation = (recordLink, defaultStyle) => {
 
   const cancellableFetchCitationRef = useRef(null);
 
-  const getCitation = useCallback(async (style) => {
-    setError(null);
-    setLoading(true);
-    setCitation("");
+  const getCitation = useCallback(
+    async (style) => {
+      setError(null);
+      setLoading(true);
+      setCitation("");
 
-    const cancellableFetch = withCancel(
-      fetchCitation(recordLink, style)
-    );
-    cancellableFetchCitationRef.current = cancellableFetch;
+      const cancellableFetch = withCancel(fetchCitation(recordLink, style));
+      cancellableFetchCitationRef.current = cancellableFetch;
 
-    try {
-      const response = await cancellableFetch.promise;
-      setLoading(false);
-      setCitation(response.data);
-    } catch (error) {
-      if (error !== "UNMOUNTED") {
+      try {
+        const response = await cancellableFetch.promise;
         setLoading(false);
-        setCitation("");
-        setError(i18next.t("An error occurred while generating the citation."));
+        setCitation(response.data);
+      } catch (error) {
+        if (error !== "UNMOUNTED") {
+          setLoading(false);
+          setCitation("");
+          setError(
+            i18next.t("An error occurred while generating the citation.")
+          );
+        }
       }
-    }
-  }, [recordLink]);
+    },
+    [recordLink]
+  );
 
   useEffect(() => {
     const cancellableFetchCitation = cancellableFetchCitationRef.current;
